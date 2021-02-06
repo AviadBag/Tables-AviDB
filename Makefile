@@ -5,6 +5,8 @@ BIN     := bin
 SRC     := src
 INCLUDE := include
 
+SOURCES := $(shell find $(SRCDIR) -name "*.c")
+
 EXECUTABLE  := main
 
 
@@ -14,7 +16,7 @@ run: clean all
 	echo
 	./$(BIN)/$(EXECUTABLE)
 
-$(BIN)/$(EXECUTABLE): $(SRC)/*.c
+$(BIN)/$(EXECUTABLE): $(SOURCES)
 	$(CC) $(CC_FLAGS) -I$(INCLUDE) $^ -o $@
 
 clean:
