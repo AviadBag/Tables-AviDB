@@ -1,4 +1,5 @@
-typedef char byte;
+#ifndef DATA_TYPES_H
+#define DATA_TYPES_H
 
 enum e_type
 {
@@ -17,3 +18,5 @@ struct s_data_holder
     enum e_type type;
     union u_data data;
 };
+
+#endif
