@@ -1,10 +1,13 @@
 #ifndef DATA_TYPES_H
 #define DATA_TYPES_H
 
+typedef unsigned char byte;
+
 enum e_type
 {
     STRING,
-    INTEGER
+    INTEGER,
+    ERROR
 };
 
 union u_data

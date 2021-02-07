@@ -8,7 +8,6 @@
  * @details
  * This method converts a string to bytes array.
  * The returned array should be explicity freed.
- * If there is any error, then zero is returned. Else, non zero value is returned.
  * 
  * @param string The string to convert.
  * @param length This pointer will be filled with the length of the returned array.
@@ -33,7 +32,6 @@ static byte* string_to_bytes_array(char* str, int* length)
  * @details
  * This method converts a integer to bytes array.
  * The returned array should be explicity freed.
- * If there is any error, then zero is returned. Else, non zero value is returned.
  * 
  * @param integer The integer to convert.
  * @param length This pointer will be filled with the length of the returned array.
@@ -62,7 +60,6 @@ static byte* integer_to_bytes_array(int n, int* length)
  * @details
  * This method converts a data_holder to bytes array.
  * The returned array should be explicity freed.
- * If there is any error, then zero is returned. Else, non zero value is returned.
  * 
  * @param data_holder The data_holder to convert.
  * @param length This pointer will be filled with the length of the returned array.
