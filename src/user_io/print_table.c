@@ -54,15 +54,15 @@ static void print_table_columns_structure(struct s_columns_structure columns_str
         return; 
     }
 
-    printf("Columns Structure: ");
+    printf("Columns Structure:\n");
     for (int i = 0; i < length-1; i++)
     {
-        enum e_type type = columns_structure.columns_types[i];
-        printf("[%d] = %s, ", i, type_to_string(type));
+        struct s_column column = columns_structure.columns[i];
+        printf("[%d] => %s: %s, ", i+1, column.name, type_to_string(column.type));
     }
 
-    enum e_type last_type = columns_structure.columns_types[length-1];
-    printf("[%d] = %s\n", length-1, type_to_string(last_type));
+    struct s_column last_column = columns_structure.columns[length-1];
+    printf("[%d] => %s: %s\n", length, last_column.name, type_to_string(last_column.type));
 }
 
 static void print_table_header(struct s_table_header header)
@@ -87,6 +87,8 @@ static void print_row(struct s_row row)
 
 static void print_table_body(struct s_table_body body)
 {
+    printf("Table Body:\n");
+
     int length = body.length;
 
     for (int i = 0; i < length; i++) 

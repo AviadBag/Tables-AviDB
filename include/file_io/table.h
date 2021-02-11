@@ -9,9 +9,15 @@ struct s_row
     int length; // The length of the fields array.
 };
 
+struct s_column
+{
+    enum e_type type;
+    char* name;
+};
+
 struct s_columns_structure
 {
-    enum e_type* columns_types;
+    struct s_column* columns;
     int length; // The length of the columns array.
 };
 
