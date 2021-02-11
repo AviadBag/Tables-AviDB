@@ -1,5 +1,5 @@
 #include "user_io/print_table.h"
-#include "file_io/table.h"
+#include "data_types/table.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -87,9 +87,14 @@ static void print_row(struct s_row row)
 
 static void print_table_body(struct s_table_body body)
 {
-    printf("Table Body:\n");
-
     int length = body.length;
+    if (length == 0)
+    {
+        printf("No Body\n");
+        return;
+    }
+
+    printf("Table Body:\n");
 
     for (int i = 0; i < length; i++) 
         print_row(body.rows[0]);
