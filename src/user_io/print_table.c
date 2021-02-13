@@ -95,7 +95,7 @@ static void print_table_body(struct s_table_body body)
     printf("Table Body:\n");
 
     for (int i = 0; i < length; i++) 
-        print_row(body.rows[0]);
+        print_row(body.rows[i]);
 }
 
 void print_table(struct s_table table)
