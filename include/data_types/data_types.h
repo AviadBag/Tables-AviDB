@@ -5,9 +5,9 @@ typedef unsigned char byte;
 
 enum e_type
 {
-    STRING,
-    INTEGER,
-    ERROR
+    STRING = 1,
+    INTEGER = 2,
+    ERROR = 9
 };
 
 union u_data
