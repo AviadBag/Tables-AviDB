@@ -3,3 +3,5 @@ bin/
 html/
 
 src/user_io/main.c
+
+*.db
