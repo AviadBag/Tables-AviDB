@@ -15,7 +15,6 @@ static char* type_to_string(enum e_type type)
     {
         case (STRING): return "String";
         case (INTEGER): return "Integer";
-        case (ERROR): return "Error";
         default: return "Unknown";
     }
 }
@@ -34,7 +33,6 @@ static char* data_holder_to_string(struct s_data_holder data_holder, int* should
     *shouldFree = 0;
 
     if (data_holder.type == STRING) return data_holder.data.string;
-    else if (data_holder.type == ERROR) return "Error";
     else if (data_holder.type == INTEGER)
     {
             char* str = int_to_string(data_holder.data.integer);

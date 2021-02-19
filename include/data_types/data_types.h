@@ -7,7 +7,6 @@ enum e_type
 {
     STRING = 1,
     INTEGER = 2,
-    ERROR = 9
 };
 
 union u_data

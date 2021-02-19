@@ -1,5 +1,6 @@
 #include "file_io/write_file.h"
 #include "data_types/table.h"
+#include "define/define.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -7,13 +8,7 @@
 
 #define HEADER_MAGIC 0x3910
 
-#define ERROR 0
-#define SUCCESS 1
-
-#define FALSE 0
-#define TRUE 1
-
-int get_string_length(FILE* file, int* length)
+e_status get_string_length(FILE* file, int* length)
 {
     *length = 0;
     char current = 1;
@@ -31,25 +26,28 @@ int get_string_length(FILE* file, int* length)
 }
 
 // string_ptr should be explicity freed.
-int read_string_from_file(FILE* file, char** string_ptr)
+e_status read_string_from_file(FILE* file, char** string_ptr)
 {   
     int string_length;
-    get_string_length(file, &string_length);
+    if (get_string_length(file, &string_length) == ERROR) return ERROR;
 
     // Take the file pointer back
-    fseek(file, sizeof(char) * (string_length+1) * -1, SEEK_CUR);
+    if (fseek(file, sizeof(char) * (string_length+1) * -1, SEEK_CUR) != 0) return ERROR;
 
     // Allocate memory for the string
     *string_ptr = (char* ) malloc(sizeof(char) * (string_length + 1));
-    fread(*string_ptr, sizeof(char), string_length, file);
+    if (fread(*string_ptr, sizeof(char), string_length, file) < string_length) 
+        return ERROR;
     *(*string_ptr + string_length) = 0; // Null terminator
+
+    return SUCCESS;
 }
 
 // *header should be initialized.
-int read_header(FILE* file, struct s_table_header* header)
+e_status read_header(FILE* file, struct s_table_header* header)
 {
     char* table_name;
-    if (!read_string_from_file(file, &table_name)) return ERROR;
+    if (read_string_from_file(file, &table_name) == ERROR) return ERROR;
     header->table_name = table_name;
 
     return SUCCESS;
@@ -57,15 +55,16 @@ int read_header(FILE* file, struct s_table_header* header)
 
 
 // *body should be initialized.
-int read_body(FILE* file, struct s_table_body* body)
+e_status read_body(FILE* file, struct s_table_body* body)
 {
     return SUCCESS;
 }
 
-int check_magic(FILE* file)
+e_bool check_magic(FILE* file)
 {
     uint16_t magic;
-    if (!fread(&magic, 2, 1, file)) return ERROR;
+    if (fread(&magic, 2, 1, file) < 1) 
+        return FALSE;
     
     if (magic != HEADER_MAGIC) 
         return FALSE;
@@ -74,22 +73,27 @@ int check_magic(FILE* file)
 }
 
 // *table should be initialized.
-int read_file(char* file_name, struct s_table* table)
+e_status read_file(char* file_name, struct s_table* table)
 {
     FILE* file = fopen(file_name, "rb");
     if (file == NULL) return ERROR;
 
-    if (!check_magic(file))
-        return FALSE;
+    if (check_magic(file) == FALSE)
+        goto close_and_error;
     
     struct s_table_header header;
-    if (!read_header(file, &header)) return ERROR;
+    if (read_header(file, &header) == ERROR) goto close_and_error;;
     
     struct s_table_body body;
-    if (!read_body(file, &body)) return ERROR;
+    if (read_body(file, &body) == ERROR) goto close_and_error;;
 
     table->table_header = header;
     table->table_body = body;
 
+    fclose(file);
     return SUCCESS;
+
+    close_and_error:
+        fclose(file);
+        return ERROR;
 }
