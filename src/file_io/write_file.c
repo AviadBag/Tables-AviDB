@@ -33,6 +33,11 @@ e_status write_column(FILE* file, struct s_column column)
 e_status write_columns_structure(FILE* file, struct s_columns_structure columns_structure)
 {
     int length = columns_structure.length;
+    
+    // Write number of columns in the columns structure.
+    if (fwrite(&length, sizeof(int), 1, file) < 1) 
+        return ERROR;
+    
     for (int i = 0; i < length; i++)
     {
         struct s_column column = columns_structure.columns[i];
