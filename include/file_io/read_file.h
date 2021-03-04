@@ -5,5 +5,6 @@
 #include "define/define.h"
 
 e_status read_file(char* file_name, struct s_table* table);
+void free_table(struct s_table table);
 
 #endif
