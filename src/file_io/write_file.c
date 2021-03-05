@@ -23,7 +23,7 @@ e_status write_column(FILE* file, struct s_column column)
     char* name = column.name;
 
     // Write type
-    if (fwrite(&type, 1, 1, file) < 1) 
+    if (fwrite(&type, sizeof(int), 1, file) < 1) 
         return ERROR;
 
     // Write name
