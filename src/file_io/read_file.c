@@ -129,6 +129,8 @@ e_bool check_magic(FILE* file)
 void free_table(struct s_table table)
 {
     free(table.table_header.table_name);
+    for (int i = 0; i < table.table_header.columns_structure.length; i++)
+        free(table.table_header.columns_structure.columns[i].name);
 }
 
 // *table must be initialized.
